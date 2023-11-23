@@ -1,24 +1,33 @@
+r-- Define a Neovim plugin configuration for Mason
 return {
   "williamboman/mason.nvim",
   dependencies = {
     "williamboman/mason-lspconfig.nvim",
-    "jayp0521/mason-null-ls.nvim",
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
   },
   config = function()
-    -- import mason plugin safely
+    -- Import Mason for plugin management
     local mason = require("mason")
 
-    -- import mason-lspconfig plugin safely
+    -- Import Mason LSPConfig for language server configuration
     local mason_lspconfig = require("mason-lspconfig")
 
-    -- import mason-null-ls plugin safely
-    local mason_null_ls = require("mason-null-ls")
+    -- Import Mason Tool Installer for tool installation
+    local mason_tool_installer = require("mason-tool-installer")
 
-    -- enable mason
-    mason.setup()
+    -- Enable Mason and configure icons
+    mason.setup({
+      ui = {
+        icons = {
+          package_installed = "✓",
+          package_pending = "➜",
+          package_uninstalled = "✗",
+        },
+      },
+    })
 
+    -- Configure Mason LSPConfig with a list of servers to install
     mason_lspconfig.setup({
-      -- list of servers for mason to install
       ensure_installed = {
         "tsserver",
         "html",
@@ -29,20 +38,21 @@ return {
         "graphql",
         "emmet_ls",
         "prismals",
+        "pyright",
       },
-      -- auto-install configured servers (with lspconfig)
-      automatic_installation = true, -- not the same as ensure_installed
+      automatic_installation = true, -- Auto-install configured servers (with lspconfig)
     })
 
-    mason_null_ls.setup({
-      -- list of formatters & linters for mason to install
+    -- Configure Mason Tool Installer with a list of tools to ensure installation
+    mason_tool_installer.setup({
       ensure_installed = {
-        "prettier", -- ts/js formatter
-        "stylua", -- lua formatter
-        "eslint_d", -- ts/js linter
+        "prettier",   -- Prettier formatter
+        "stylua",     -- Lua formatter
+        "isort",      -- Python formatter
+        "black",      -- Python formatter
+        "pylint",     -- Python linter
+        "eslint_d",   -- JavaScript linter
       },
-      -- auto-install configured servers (with lspconfig)
-      automatic_installation = true,
     })
   end,
 }
