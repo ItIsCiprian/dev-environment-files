@@ -1,7 +1,7 @@
--- Setting the leader key to space
+-- Setting the leader key to space for easier keymap definitions access
 vim.g.mapleader = " "
 
--- Aliasing the 'vim.keymap' module for conciseness
+-- Aliasing the 'vim.keymap' module for conciseness and readability
 local keymap = vim.keymap
 
 ---------------------
