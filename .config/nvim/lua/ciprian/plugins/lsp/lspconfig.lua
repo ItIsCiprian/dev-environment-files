@@ -1,13 +1,10 @@
+-- lspconfig plugin configurator for nvim-lspconfig plugin with nvim-cmp integrations.
 return {
   "neovim/nvim-lspconfig",
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
-    "jose-elias-alvarez/typescript.nvim",
     "hrsh7th/cmp-nvim-lsp",
-    {
-      "smjonas/inc-rename.nvim",
-      config = true,
-    },
+    { "antosha417/nvim-lsp-file-operations", config = true },
   },
   config = function()
     -- import lspconfig plugin
@@ -16,15 +13,11 @@ return {
     -- import cmp-nvim-lsp plugin
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
-    -- import typescript plugin
-    local typescript = require("typescript")
-
     local keymap = vim.keymap -- for conciseness
 
-    -- enable keybinds only for when lsp server available
+    local opts = { noremap = true, silent = true }
     local on_attach = function(client, bufnr)
-      -- keybind options
-      local opts = { noremap = true, silent = true, buffer = bufnr }
+      opts.buffer = bufnr
 
       -- set keybinds
       opts.desc = "Show LSP references"
@@ -46,7 +39,7 @@ return {
       keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
 
       opts.desc = "Smart rename"
-      keymap.set("n", "<leader>rn", ":IncRename ", opts) -- smart rename
+      keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
 
       opts.desc = "Show buffer diagnostics"
       keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
@@ -65,18 +58,6 @@ return {
 
       opts.desc = "Restart LSP"
       keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
-
-      -- typescript specific keymaps (e.g. rename file and update imports)
-      if client.name == "tsserver" then
-        opts.desc = "Rename file and update file imports"
-        keymap.set("n", "<leader>rf", ":TypescriptRenameFile<CR>") -- rename file and update imports
-
-        opts.desc = "Rename file and update file imports"
-        keymap.set("n", "<leader>oi", ":TypescriptOrganizeImports<CR>", opts) -- organize imports (not in youtube nvim video)
-
-        opts.desc = "Remove unused imports"
-        keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>", opts) -- remove unused variables (not in youtube nvim video)
-      end
     end
 
     -- used to enable autocompletion (assign to every lsp server config)
@@ -97,11 +78,9 @@ return {
     })
 
     -- configure typescript server with plugin
-    typescript.setup({
-      server = {
-        capabilities = capabilities,
-        on_attach = on_attach,
-      },
+    lspconfig["tsserver"].setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
     })
 
     -- configure css server
@@ -119,7 +98,18 @@ return {
     -- configure svelte server
     lspconfig["svelte"].setup({
       capabilities = capabilities,
-      on_attach = on_attach,
+      on_attach = function(client, bufnr)
+        on_attach(client, bufnr)
+
+        vim.api.nvim_create_autocmd("BufWritePost", {
+          pattern = { "*.js", "*.ts" },
+          callback = function(ctx)
+            if client.name == "svelte" then
+              client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.file })
+            end
+          end,
+        })
+      end,
     })
 
     -- configure prisma orm server
@@ -140,6 +130,12 @@ return {
       capabilities = capabilities,
       on_attach = on_attach,
       filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
+    })
+
+    -- configure python server
+    lspconfig["pyright"].setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
     })
 
     -- configure lua server (with special settings)
