@@ -1,33 +1,43 @@
--- Setting the leader key to space for easier keymap definitions access
-vim.g.mapleader = " "
+-- Use a local variable 'opt' for conciseness
+local opt = vim.opt
 
--- Aliasing the 'vim.keymap' module for conciseness and readability
-local keymap = vim.keymap
+-- Line numbers
+opt.relativenumber = true -- Show relative line numbers
+opt.number = true -- Show absolute line number on the cursor line (when relative number is on)
 
----------------------
--- General Keymaps -------------------
+-- Tabs & indentation
+opt.tabstop = 2 -- Set tab width to 2 spaces (prettier default)
+opt.shiftwidth = 2 -- Set indentation width to 2 spaces
+opt.expandtab = true -- Expand tabs to spaces
+opt.autoindent = true -- Automatically copy indent from the current line when starting a new one
 
--- Use 'jk' to exit insert mode
-keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
+-- Line wrapping
+opt.wrap = false -- Disable line wrapping
 
--- Clear search highlights
-keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
+-- Search settings
+opt.ignorecase = true -- Ignore case when searching
+opt.smartcase = true -- If you include mixed case in your search, assume you want it to be case-sensitive
 
--- Delete a single character without copying into register
--- keymap.set("n", "x", '"_x')
+-- Cursor line
+opt.cursorline = true -- Highlight the current cursor line
 
--- Increment/decrement numbers
-keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- Increment
-keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number" }) -- Decrement
+-- Appearance
 
--- Window management
-keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" }) -- Split window vertically
-keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" }) -- Split window horizontally
-keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" }) -- Make split windows equal width & height
-keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" }) -- Close current split window
+-- Turn on termguicolors for the nightfly colorscheme to work
+-- (Requires a true color terminal, such as iTerm2)
+opt.termguicolors = true
+opt.background = "dark" -- Colorschemes that can be light or dark will be made dark
+opt.signcolumn = "yes" -- Show the sign column so that text doesn't shift
 
-keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open new tab" }) -- Open new tab
-keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" }) -- Close current tab
-keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" }) -- Go to next tab
-keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) -- Go to previous tab
-keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) -- Move to the current buffer in a new tab
+-- Backspace
+opt.backspace = "indent,eol,start" -- Allow backspace on indent, end of line, or insert mode start position
+
+-- Clipboard
+opt.clipboard:append("unnamedplus") -- Use the system clipboard as the default register
+
+-- Split windows
+opt.splitright = true -- Split vertical window to the right
+opt.splitbelow = true -- Split horizontal window to the bottom
+
+-- Turn off swapfile
+opt.swapfile = false -- Disable swapfile usage
