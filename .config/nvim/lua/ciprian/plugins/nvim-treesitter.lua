@@ -8,10 +8,14 @@ return {
       "windwp/nvim-ts-autotag", -- Additional plugin dependency
     },
     config = function()
-      -- Import nvim-treesitter plugin
-      local treesitter = require("nvim-treesitter.configs")
+      -- Import ts_context_commentstring plugin
+      require("ts_context_commentstring").setup({})
 
-      -- Configure treesitter
+      -- Set the flag to skip loading the deprecated module
+      vim.g.skip_ts_context_commentstring_module = true
+
+      -- Configure nvim-treesitter
+      local treesitter = require("nvim-treesitter.configs")
       treesitter.setup({
         -- Enable syntax highlighting
         highlight = {
@@ -40,11 +44,6 @@ return {
           "vim",
           "dockerfile",
           "gitignore",
-        },
-        -- Enable nvim-ts-context-commentstring plugin for commenting tsx and jsx
-        context_commentstring = {
-          enable = true,
-          enable_autocmd = false,
         },
         -- Auto install above language parsers
         auto_install = true,
