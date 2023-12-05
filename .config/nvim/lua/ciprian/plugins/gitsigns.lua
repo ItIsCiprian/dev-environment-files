@@ -1,3 +1,4 @@
+-- gitsigns configuration file for neovim lsp
 return {
   "lewis6991/gitsigns.nvim", -- Plugin name
 
