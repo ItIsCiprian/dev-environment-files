@@ -1,3 +1,4 @@
+-- cofiguration for nvimtools none-ls.nvim plugin 
 return {
   "nvimtools/none-ls.nvim", -- configure formatters & linters
   lazy = true,
