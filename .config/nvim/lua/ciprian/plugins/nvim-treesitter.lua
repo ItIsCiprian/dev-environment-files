@@ -1,3 +1,4 @@
+-- nvim treesitter config file for lsp (nvim-lspconfig)
 return {
   {
     -- Plugin Configuration
