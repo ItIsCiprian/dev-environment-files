@@ -1,3 +1,4 @@
+-- nvim-treesitter-textobjects lua config file
 return {
   "nvim-treesitter/nvim-treesitter-textobjects",
   event = { "BufReadPost", "BufNewFile" },
