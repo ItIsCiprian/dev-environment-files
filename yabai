@@ -1,0 +1,68 @@
+
+# How To Setup And Use The Yabai Tiling Window Manager On Mac
+**Published: February 11, 2023**
+
+You can find my current yabai config and the rest of my dotfiles here: [dotfiles](https://github.com/yourusername/dotfiles)
+
+## Configure MacOS Specific Settings
+- Open **Several Desktops (~7)** on Your Machine
+- Go To **Keyboard Settings > Shortcuts > Mission Control**
+  - Expand Mission Control and Turn On Shortcuts for **Switching Spaces 1-7** with `Ctrl + # Of Space`
+- Go to **System Settings > Accessibility > Display**
+  - Turn On **Reduce Motion**
+- Go To **System Settings > Desktop & Dock > Mission Control**
+  - Turn off **Automatically Rearrange Spaces Based On Most Recent Use**
+  - Personally, I only keep **Displays Have Separate Spaces** turned on here, and that’s what I’d recommend
+
+## Open a Terminal Window
+- Open a terminal window on your Mac. Could be the default terminal or something else like iTerm2, which is what I’m currently using.
+
+## Install Homebrew
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+- If necessary, when prompted, enter your password here and press enter. If you haven’t installed the XCode Command Line Tools, when prompted, press enter and Homebrew will install this as well.
+
+## Add To Path (Only Apple Silicon Macbooks)
+- After installing, add it to the path. This step shouldn’t be necessary on Intel Macs.
+```bash
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
+```
+
+## Install Yabai
+```bash
+brew install koekeishiya/formulae/yabai
+```
+
+## Install Skhd
+```bash
+brew install koekeishiya/formulae/skhd
+```
+
+## Create Yabai Config File in Home Directory
+- Move to home folder and create directory for yabai config file (config will live in `.config/yabai/yabairc`):
+```bash
+cd ~
+mkdir -p .config/yabai
+cd .config/yabai
+touch yabairc
+```
+
+## Add Configuration Options to File
+- Open `yabairc` with your preferred editor and add your configuration. All of the options I’ve configured below will work without disabling SIP (System Integrity Protection).
+
+### Example Configurations
+- Set default layout to `bsp` (Binary Space Partitioning).
+- Configure window padding and gaps.
+- Set mouse actions for focusing and moving windows.
+- Disable specific apps from being managed with yabai, e.g., System Settings, Calculator.
+
+## Start Yabai and Skhd
+- Use `brew services` to start and manage yabai and skhd services. Allow any prompts for accessibility permissions.
+
+## Create Skhd Config File in Home Directory
+- Similar to yabai config, set up your skhd config in `.config/skhd/skhdrc` and define your keyboard shortcuts.
+
+## That’s It, You’re Done!
+- Enjoy your new tiling window management setup on Mac with yabai and skhd!
