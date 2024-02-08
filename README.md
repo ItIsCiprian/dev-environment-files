@@ -20,7 +20,7 @@
 
 # Yabai Tiling Window Manager Setup
 
-Setup tutorial in [yabai and skhd install.md](yabai and skhd install.md) - Yabai and Skhd configuration and install 
+Setup tutorial in [yabai](yabai) - Yabai and Skhd configuration and install 
 
 ### Relevant Files
 
