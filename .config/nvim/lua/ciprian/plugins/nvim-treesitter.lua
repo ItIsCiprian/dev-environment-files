@@ -1,55 +1,40 @@
+-- Return a configuration table for setting up the nvim-treesitter plugin
 return {
   {
-    "nvim-treesitter/nvim-treesitter",
-    event = { "BufReadPre", "BufNewFile" },
-    build = ":TSUpdate",
+    "nvim-treesitter/nvim-treesitter",  -- The plugin repository
+    event = { "BufReadPre", "BufNewFile" },  -- Load the plugin on pre-buffer read and when new files are created
+    build = ":TSUpdate",  -- Build command to update treesitter definitions
     dependencies = {
-      "windwp/nvim-ts-autotag",
+      "windwp/nvim-ts-autotag",  -- Depend on nvim-ts-autotag plugin for auto-closing and auto-renaming HTML tags
     },
     config = function()
-      -- Import the nvim-treesitter plugin
-      local treesitter = require("nvim-treesitter.configs")
-
-      -- Configure treesitter
-      treesitter.setup({
-        -- Enable syntax highlighting
+      -- Configure nvim-treesitter plugin
+      require("nvim-treesitter.configs").setup({
         highlight = {
-          enable = true,
+          enable = true,  -- Enable syntax highlighting using treesitter
         },
-        -- Enable indentation
-        indent = { enable = true },
-        -- Enable autotagging (w/ nvim-ts-autotag plugin)
-        autotag = { enable = true },
-        -- Ensure these language parsers are installed
+        indent = {
+          enable = true,  -- Enable improved indentation support with treesitter
+        },
+        autotag = {
+          enable = true,  -- Enable automatic tag management for HTML, XML, etc.
+        },
+        -- List of language parsers to ensure are installed
         ensure_installed = {
-          "json",
-          "javascript",
-          "typescript",
-          "tsx",
-          "yaml",
-          "html",
-          "css",
-          "prisma",
-          "markdown",
-          "markdown_inline",
-          "svelte",
-          "graphql",
-          "bash",
-          "lua",
-          "vim",
-          "dockerfile",
-          "gitignore",
+          "json", "javascript", "typescript", "tsx", "yaml", "html", "css",
+          "prisma", "markdown", "markdown_inline", "svelte", "graphql", "bash",
+          "lua", "vim", "dockerfile", "gitignore",
         },
-        -- Auto install above language parsers
-        auto_install = true,
+        auto_install = true,  -- Automatically install missing parsers when opening a buffer
       })
 
-      -- Import and configure the ts_context_commentstring module
-      local ts_commentstring = require("ts_context_commentstring")
-      ts_commentstring.setup({})
+      -- Additional configuration for contextual comment strings (adjust comments based on the cursor location in the file)
+      require("ts_context_commentstring").setup({
+        -- Module-specific configuration would go here
+      })
 
-      -- Set the global variable to speed up loading
-      vim.g.skip_ts_context_commentstring_module = true
+      -- Optimize loading by skipping unnecessary processing
+      vim.g.skip_ts_context_commentstring_module = true  -- Global flag to skip context comment string module
     end,
   },
 }
