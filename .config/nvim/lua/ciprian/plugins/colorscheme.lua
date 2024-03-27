@@ -1,40 +1,45 @@
+-- Configuration for the Catppuccin theme in Neovim
 return {
   {
-    "catppuccin/nvim", -- Plugin identifier for Catppuccin theme for Neovim
+    "catppuccin/nvim", -- Theme plugin identifier
+
+    -- The 'config' function contains setup instructions for the Catppuccin theme
     config = function()
-      -- Setup function to configure the Catppuccin theme
+      -- Initialize the Catppuccin theme with specific configurations
       require("catppuccin").setup({
+        -- Configuration for integrating with other Neovim plugins and features
         integrations = {
-          -- Enabling various integrations with other plugins and features
-          cmp = true, -- Completion plugin integration
-          gitsigns = true, -- Git integration for showing signs in the gutter
-          harpoon = true, -- Project navigation tool
-          illuminate = true, -- Highlight other uses of the current word under the cursor
-          indent_blankline = {
-            enabled = false, -- Disabling indentation guides by default
-            scope_color = "sapphire", -- Color for the scope indicator
-            colored_indent_levels = false, -- Disable coloring indent levels differently
+          cmp = true,                 -- Enable integration with completion plugin
+          gitsigns = true,            -- Enable Git signs in the gutter
+          harpoon = true,             -- Enable integration with Harpoon for project navigation
+          illuminate = true,          -- Enable highlighting of word occurrences
+          indent_blankline = {       -- Configuration for indentation guides
+            enabled = false,          -- Disable indentation guides by default
+            scope_color = "sapphire", -- Set color for scope indicators
+            colored_indent_levels = false, -- Disable coloring for different indent levels
           },
-          mason = true, -- Automatically manage external editor tooling
-          native_lsp = { enabled = true }, -- Enable native LSP client integration
-          notify = true, -- Notification manager integration
-          nvimtree = true, -- File explorer integration
-          neotree = true, -- Another file explorer integration, alternative to NvimTree
-          symbols_outline = true, -- Symbols outline for easy navigation
-          telescope = true, -- Fuzzy finder integration
-          treesitter = true, -- Syntax highlighting via Treesitter
-          treesitter_context = true, -- Show code context based on Treesitter
+          mason = true,               -- Enable Mason for managing external tooling
+          native_lsp = {              -- Enable integration with native LSP client
+            enabled = true,
+          },
+          notify = true,              -- Enable integration with notification manager
+          nvimtree = true,            -- Enable integration with NvimTree file explorer
+          neotree = true,             -- Enable integration with NeoTree file explorer
+          symbols_outline = true,     -- Enable symbols outline for navigation
+          telescope = true,           -- Enable integration with Telescope fuzzy finder
+          treesitter = true,          -- Enable syntax highlighting with Treesitter
+          treesitter_context = true,  -- Enable Treesitter-based code context display
         },
       })
 
-      -- Setting the colorscheme to Catppuccin Macchiato
-      vim.cmd.colorscheme("catppuccin-macchiato")
+      -- Apply the Catppuccin Macchiato colorscheme
+      vim.cmd("colorscheme catppuccin-macchiato")
 
-      -- Workaround for a known issue with LSP highlights
-      -- Temporarily hide all semantic highlights until the issue is resolved
-      -- More details at https://github.com/catppuccin/nvim/issues/480
+      -- Temporary fix for an LSP highlights issue with the Catppuccin theme
+      -- This loop clears all semantic highlight groups as a workaround
+      -- Refer to https://github.com/catppuccin/nvim/issues/480 for more details
       for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
-        vim.api.nvim_set_hl(0, group, {})
+        vim.api.nvim_set_hl(0, group, {}) -- Clear the highlight group
       end
     end,
   },
