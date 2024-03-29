@@ -1,49 +1,70 @@
+# -----------------------------------------------------------------------------
 # Powerlevel10k Instant Prompt Configuration
-# Enables the Powerlevel10k instant prompt feature for a faster shell startup.
-# Initialization requiring console input should precede this block.
+# -----------------------------------------------------------------------------
+# Enables faster shell startup by using the Powerlevel10k instant prompt feature.
+# Ensure any initialization requiring console input is placed before this block.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Path Configuration
-# Customize the system $PATH variable to include directories with executable files.
-# This is particularly useful if you're migrating from bash or have custom binaries.
+# -----------------------------------------------------------------------------
+# Environment Configuration
+# -----------------------------------------------------------------------------
+# Set the Zsh and Oh My Zsh environment variables.
 export ZSH="$HOME/.oh-my-zsh"
+
+# Node Version Manager (NVM) setup for managing different Node.js versions.
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # Load NVM
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # Load NVM bash_completion
+
+# Tmuxifier initialization for managing tmux sessions.
+export PATH="$HOME/.tmuxifier/bin:$PATH"
+
+# -----------------------------------------------------------------------------
+# Path Configuration
+# -----------------------------------------------------------------------------
+# Customize system $PATH to include directories with executable files, ensuring
+# custom binaries and tools are available in the shell.
+# Uncomment and modify the following line as needed.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
+# Example: Add custom path for a newer version of curl.
+export PATH="/usr/local/opt/curl/bin:$PATH"
 
-# Oh My Zsh Configuration
-# Specifies the Oh My Zsh theme, plugins, and update behavior.
+# -----------------------------------------------------------------------------
+# Oh My Zsh Theme and Plugin Configuration
+# -----------------------------------------------------------------------------
+# Configure the visual theme and functionality of the Oh My Zsh environment.
 
-# Theme Configuration
-ZSH_THEME="powerlevel10k/powerlevel10k" # Set the Zsh theme to Powerlevel10k.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" ) # Optional: Random theme selection.
+# Set the Zsh theme to Powerlevel10k for a modern, customizable prompt.
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
-# Plugin Configuration
-# Add plugins to enhance shell capabilities. Popular plugins include git, zsh-autosuggestions, and zsh-syntax-highlighting.
+# Optionally, enable random theme selection from a list of candidates.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Specify plugins to enhance shell capabilities, including suggestions,
+# syntax highlighting, and command history search.
 plugins=(git web-search zsh-autosuggestions zsh-syntax-highlighting)
 
-# Source the Oh My Zsh script to apply the above configurations.
+# Source the main Oh My Zsh script to apply the theme and plugins.
 source $ZSH/oh-my-zsh.sh
 
+# -----------------------------------------------------------------------------
 # User Configuration
-# Custom user settings for environment variables, aliases, and more.
+# -----------------------------------------------------------------------------
+# Define aliases, environment variables, and other custom settings for the user.
 
-# Aliases for productivity and convenience.
-# Example: Aliases for starting a Pomodoro timer with notifications.
+# Aliases for productivity, like starting a Pomodoro timer with notifications.
 alias work="timer 60m && terminal-notifier -message 'Pomodoro' -title 'Work Timer is up! Take a Break 😊' -appIcon '~/Pictures/pumpkin.png' -sound Crystal"
 alias rest="timer 10m && terminal-notifier -message 'Pomodoro' -title 'Break is over! Get back to work 😬' -appIcon '~/Pictures/pumpkin.png' -sound Crystal"
 
-# Node Version Manager (NVM) Configuration
-# Setup NVM for managing different Node.js versions.
-export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+# Set 'vim' alias to use Neovim for an enhanced editing experience.
+alias vim="nvim"
 
-# Additional Configuration
-# Customize further as needed. Examples include setting the default editor or modifying the PATH.
-alias vim="nvim" # Set 'vim' alias to use Neovim.
-export PATH="/usr/local/opt/curl/bin:$PATH" # Add custom path, e.g., for a newer version of curl.
-
+# -----------------------------------------------------------------------------
 # Prompt Customization
+# -----------------------------------------------------------------------------
+# Instructions for customizing the command-line prompt appearance and behavior.
+
 # To customize the prompt (e.g., with Powerlevel10k), run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
