@@ -1,18 +1,21 @@
+-- Configuration for Comment.nvim with dependency on nvim-ts-context-commentstring
 return {
   "numToStr/Comment.nvim",
   event = { "BufReadPre", "BufNewFile" },
-  dependencies = {
-    "JoosepAlviste/nvim-ts-context-commentstring",
-  },
+  dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
   config = function()
-    -- import comment plugin safely
-    local comment = require("Comment")
+    -- Safely require Comment and ts_context_commentstring modules
+    local status_comment, comment = pcall(require, "Comment")
+    local status_ts_context, ts_context_commentstring = pcall(require, "ts_context_commentstring.integrations.comment_nvim")
 
-    local ts_context_commentstring = require("ts_context_commentstring.integrations.comment_nvim")
+    -- Ensure both modules are loaded successfully
+    if not status_comment or not status_ts_context then
+      print("Failed to load Comment or ts_context_commentstring module")
+      return
+    end
 
-    -- enable comment
+    -- Setup Comment with ts_context_commentstring integration for enhanced commenting in tsx and jsx files
     comment.setup({
-      -- for commenting tsx and jsx files
       pre_hook = ts_context_commentstring.create_pre_hook(),
     })
   end,
