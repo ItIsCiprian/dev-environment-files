@@ -1,47 +1,46 @@
+-- Configuration for gitsigns.nvim, a Neovim plugin for Git integration.
 return {
   "lewis6991/gitsigns.nvim",
+  -- Load the plugin on these events for performance optimization.
   event = { "BufReadPre", "BufNewFile" },
   opts = {
+    -- Custom function to attach key mappings when gitsigns is activated for a buffer.
     on_attach = function(bufnr)
-      local gs = package.loaded.gitsigns
+      -- Safely access the gitsigns module from loaded packages.
+      local gitsigns = package.loaded.gitsigns
 
-      local function map(mode, l, r, desc)
-        vim.keymap.set(mode, l, r, { buffer = bufnr, desc = desc })
+      -- Helper function to simplify key mapping with descriptive comments.
+      local function map(mode, lhs, rhs, description)
+        vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = description })
       end
 
-      -- Navigation
-      map("n", "]h", gs.next_hunk, "Next Hunk")
-      map("n", "[h", gs.prev_hunk, "Prev Hunk")
+      -- Navigation mappings: Jump between hunks.
+      map("n", "]h", gitsigns.next_hunk, "Go to next hunk")
+      map("n", "[h", gitsigns.prev_hunk, "Go to previous hunk")
 
-      -- Actions
-      map("n", "<leader>hs", gs.stage_hunk, "Stage hunk")
-      map("n", "<leader>hr", gs.reset_hunk, "Reset hunk")
-      map("v", "<leader>hs", function()
-        gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-      end, "Stage hunk")
-      map("v", "<leader>hr", function()
-        gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-      end, "Reset hunk")
+      -- Action mappings: Perform Git operations on hunks.
+      map("n", "<leader>hs", gitsigns.stage_hunk, "Stage current hunk")
+      map("n", "<leader>hr", gitsigns.reset_hunk, "Reset current hunk")
+      -- Visual mode mappings allow staging or resetting selected hunks.
+      map("v", "<leader>hs", function() gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, "Stage selected hunk")
+      map("v", "<leader>hr", function() gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, "Reset selected hunk")
 
-      map("n", "<leader>hS", gs.stage_buffer, "Stage buffer")
-      map("n", "<leader>hR", gs.reset_buffer, "Reset buffer")
+      -- Buffer-wide actions.
+      map("n", "<leader>hS", gitsigns.stage_buffer, "Stage entire buffer")
+      map("n", "<leader>hR", gitsigns.reset_buffer, "Reset entire buffer")
+      map("n", "<leader>hu", gitsigns.undo_stage_hunk, "Undo last staged hunk")
 
-      map("n", "<leader>hu", gs.undo_stage_hunk, "Undo stage hunk")
+      -- Hunk preview and blame.
+      map("n", "<leader>hp", gitsigns.preview_hunk, "Preview hunk")
+      map("n", "<leader>hb", function() gitsigns.blame_line({ full = true }) end, "Blame current line")
+      map("n", "<leader>hB", gitsigns.toggle_current_line_blame, "Toggle blame for current line")
 
-      map("n", "<leader>hp", gs.preview_hunk, "Preview hunk")
+      -- Diff viewing.
+      map("n", "<leader>hd", gitsigns.diffthis, "Show diff for current file")
+      map("n", "<leader>hD", function() gitsigns.diffthis("~") end, "Show diff for current file against last commit")
 
-      map("n", "<leader>hb", function()
-        gs.blame_line({ full = true })
-      end, "Blame line")
-      map("n", "<leader>hB", gs.toggle_current_line_blame, "Toggle line blame")
-
-      map("n", "<leader>hd", gs.diffthis, "Diff this")
-      map("n", "<leader>hD", function()
-        gs.diffthis("~")
-      end, "Diff this ~")
-
-      -- Text object
-      map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "Gitsigns select hunk")
+      -- Text object for hunks, usable in visual and operator pending modes.
+      map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "Select hunk text object")
     end,
   },
 }
