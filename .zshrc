@@ -70,5 +70,7 @@ export BAT_THEME="tokyonight_night"  # Theme for Bat (a cat clone with syntax hi
 eval $(thefuck --alias)  # Command correction tool
 eval $(thefuck --alias fk)
 
+# -----------------------------------------------------------------------------
 # Source Powerlevel10k theme customization, if exists.
+# -----------------------------------------------------------------------------
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
