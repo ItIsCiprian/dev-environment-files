@@ -56,9 +56,6 @@ export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
 
-# -----------------------------------------------------------------------------
-# FZF Functions
-# -----------------------------------------------------------------------------
 # Defines functions for FZF preview customization.
 _fzf_compgen_path() {
   fd --hidden --exclude .git . "$1"
@@ -77,7 +74,7 @@ _fzf_comprun() {
     cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
     export|unset) fzf --preview "eval 'echo \${}'" "$@" ;;
     ssh)          fzf --preview 'dig {}' "$@" ;;
-    *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
+    *)            fzf --preview "bat -n --color=always --line-range :500 {}" "$@" ;;
   esac
 }
 
@@ -114,3 +111,31 @@ alias cd="z"
 alias work="timer 60m && terminal-notifier -message 'Pomodoro complete - Take a break' -title 'Work Timer' -appIcon '~/Pictures/pumpkin.png' -sound Crystal"
 alias rest="timer 10m && terminal-notifier -message 'Break over - Back to work' -title 'Break Timer' -appIcon '~/Pictures/pumpkin.png' -sound Crystal"
 alias vim="nvim"  # Use Neovim as the default editor
+
+# -----------------------------------------------------------------------------
+# FZF Customizations
+# -----------------------------------------------------------------------------
+# Sets up FZF preview options for specific commands.
+export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
+
+# Advanced customization of FZF options via _fzf_comprun function.
+# The first argument to the function is the name of the command.
+# You should make sure to pass the rest of the arguments to fzf.
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
+    export|unset) fzf --preview "eval 'echo \${}'" "$@" ;;
+    ssh)          fzf --preview 'dig {}' "$@" ;;
+    *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
+  esac
+}
+
+# -----------------------------------------------------------------------------
+# Eza Aliases
+# -----------------------------------------------------------------------------
+# Additional alias for 'ls' command with enhanced features.
+alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions"
