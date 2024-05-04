@@ -85,7 +85,7 @@ _fzf_comprun() {
 # Bat Configuration
 # -----------------------------------------------------------------------------
 # Sets up Bat (a cat clone with syntax highlighting) theme.
-export BAT_THEME="tokyonight_night"
+export BAT_THEME="Catppuccin Mocha"
 
 # -----------------------------------------------------------------------------
 # Eza Configuration
