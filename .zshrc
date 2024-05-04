@@ -10,67 +10,107 @@ fi
 # -----------------------------------------------------------------------------
 # Oh My Zsh Configuration
 # -----------------------------------------------------------------------------
-# Set up Oh My Zsh environment and themes.
+# Sets up Oh My Zsh environment and themes.
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"  # Modern, customizable Zsh theme
 plugins=(git web-search zsh-autosuggestions zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 
+# Loads Powerlevel10k customizations if the file exists.
+[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+
+# Aliases for reloading and editing zsh configuration.
+alias reload-zsh="source ~/.zshrc"
+alias edit-zsh="nvim ~/.zshrc"
+
+# History setup
+HISTFILE=$HOME/.zhistory
+SAVEHIST=1000
+HISTSIZE=999
+setopt share_history
+setopt hist_expire_dups_first
+setopt hist_ignore_dups
+setopt hist_verify
+
+# Enables completion using arrow keys (based on history).
+bindkey '^[[A' history-search-backward
+bindkey '^[[B' history-search-forward
+
 # -----------------------------------------------------------------------------
 # Node Version Manager (NVM) Configuration
 # -----------------------------------------------------------------------------
-# Setup for managing different Node.js versions.
+# Sets up NVM for managing different Node.js versions.
 export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # Load NVM
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # Load bash_completion
-
-# -----------------------------------------------------------------------------
-# Path Configuration
-# -----------------------------------------------------------------------------
-# Customize system $PATH to ensure custom binaries and tools are available.
-export PATH="$HOME/.tmuxifier/bin:/usr/local/opt/curl/bin:$PATH"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # Loads NVM
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # Loads bash_completion
 
 # -----------------------------------------------------------------------------
 # FZF Configuration (Fuzzy Finder)
 # -----------------------------------------------------------------------------
-# FZF settings for enhanced command-line navigation and previews.
-source ~/fzf-git.sh/fzf-git.sh
+# Sets up FZF key bindings and fuzzy completion.
+eval "$(fzf --zsh)"
+
+# Sets up FZF theme and default options.
 export FZF_DEFAULT_OPTS="--color=fg:#CBE0F0,bg:#011628,hl:#B388FF,fg+:#CBE0F0,bg+:#143652,hl+:#B388FF,info:#06BCE4,prompt:#2CF9ED,pointer:#2CF9ED,marker:#2CF9ED,spinner:#2CF9ED,header:#2CF9ED"
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
-export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}'"
-export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
+
+# -----------------------------------------------------------------------------
+# FZF Functions
+# -----------------------------------------------------------------------------
+# Defines functions for FZF preview customization.
+_fzf_compgen_path() {
+  fd --hidden --exclude .git . "$1"
+}
+
+_fzf_compgen_dir() {
+  fd --type=d --hidden --exclude .git . "$1"
+}
+
+# Advanced customization of FZF options via _fzf_comprun function.
 _fzf_comprun() {
   local command=$1
   shift
+
   case "$command" in
     cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
-    export|unset) fzf --preview "eval 'echo \$'{}" "$@" ;;
+    export|unset) fzf --preview "eval 'echo \${}'" "$@" ;;
     ssh)          fzf --preview 'dig {}' "$@" ;;
-    *)            fzf --preview "bat -n --color=always --line-range :500 {}" "$@" ;;
+    *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
   esac
 }
 
 # -----------------------------------------------------------------------------
-# User Custom Aliases and Functions
+# Bat Configuration
+# -----------------------------------------------------------------------------
+# Sets up Bat (a cat clone with syntax highlighting) theme.
+export BAT_THEME="tokyonight_night"
+
+# -----------------------------------------------------------------------------
+# Eza Configuration
+# -----------------------------------------------------------------------------
+# Aliases for ls command with icons.
+alias ls="eza --icons=always"
+
+# -----------------------------------------------------------------------------
+# TheFuck Configuration
+# -----------------------------------------------------------------------------
+# Defines aliases for TheFuck command correction tool.
+eval $(thefuck --alias)
+eval $(thefuck --alias fk)
+
+# -----------------------------------------------------------------------------
+# Zoxide Configuration
+# -----------------------------------------------------------------------------
+# Initializes Zoxide for better directory navigation.
+eval "$(zoxide init zsh)"
+alias cd="z"
+
+# -----------------------------------------------------------------------------
+# Custom Aliases and Functions
 # -----------------------------------------------------------------------------
 # Custom aliases for productivity and system navigation.
 alias work="timer 60m && terminal-notifier -message 'Pomodoro complete - Take a break' -title 'Work Timer' -appIcon '~/Pictures/pumpkin.png' -sound Crystal"
 alias rest="timer 10m && terminal-notifier -message 'Break over - Back to work' -title 'Break Timer' -appIcon '~/Pictures/pumpkin.png' -sound Crystal"
 alias vim="nvim"  # Use Neovim as the default editor
-eval "$(zoxide init zsh)"  # Initialize zoxide for directory navigation
-alias cd="z"  # Use zoxide for enhanced 'cd'
-
-# -----------------------------------------------------------------------------
-# Additional Tools Configuration
-# -----------------------------------------------------------------------------
-# Configuration for miscellaneous tools.
-export BAT_THEME="tokyonight_night"  # Theme for Bat (a cat clone with syntax highlighting)
-eval $(thefuck --alias)  # Command correction tool
-eval $(thefuck --alias fk)
-
-# -----------------------------------------------------------------------------
-# Source Powerlevel10k theme customization, if exists.
-# -----------------------------------------------------------------------------
-[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
