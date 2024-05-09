@@ -107,10 +107,19 @@ alias cd="z"
 # -----------------------------------------------------------------------------
 # Custom Aliases and Functions
 # -----------------------------------------------------------------------------
-# Custom aliases for productivity and system navigation.
-alias work="timer 60m && terminal-notifier -message 'Pomodoro complete - Take a break' -title 'Work Timer' -appIcon '~/Pictures/pumpkin.png' -sound Crystal"
-alias rest="timer 10m && terminal-notifier -message 'Break over - Back to work' -title 'Break Timer' -appIcon '~/Pictures/pumpkin.png' -sound Crystal"
-alias vim="nvim"  # Use Neovim as the default editor
+
+# Set up an alias for work sessions
+alias work="timer 60m && terminal-notifier -message 'Pomodoro'\
+        -title 'Work Timer is up! Take a Break 😊'\
+        -appIcon '~/Pictures/tomato.png'\
+        -sound Crystal"
+# Set up an alias for rest periods
+alias rest="timer 10m && terminal-notifier -message 'Pomodoro'\
+        -title 'Break is over! Get back to work 😬'\
+        -appIcon '~/Pictures/tomato.png'\
+        -sound Crystal"
+# Use Neovim as the default editor instead of Vim
+alias vim="nvim"
 
 # -----------------------------------------------------------------------------
 # FZF Customizations
