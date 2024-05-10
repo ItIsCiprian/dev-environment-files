@@ -1,47 +1,47 @@
-
+-- Configuration for the telescope.nvim plugin
 return {
-  "nvim-telescope/telescope.nvim",
-  branch = "0.1.x",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-    "nvim-tree/nvim-web-devicons",
-    "folke/todo-comments.nvim",
+  "nvim-telescope/telescope.nvim",    -- Plugin identifier
+  branch = "0.1.x",                   -- Specify the plugin version branch
+  dependencies = {                    -- List plugin dependencies
+    "nvim-lua/plenary.nvim",                          -- Utility functions for Neovim
+    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" }, -- FZF-native integration for faster searching
+    "nvim-tree/nvim-web-devicons",                    -- File icons
+    "folke/todo-comments.nvim",                       -- Plugin for TODO comments
   },
-  config = function()
+  config = function()                 -- Configuration function for the plugin
     local telescope = require("telescope")
     local actions = require("telescope.actions")
     local transform_mod = require("telescope.actions.mt").transform_mod
 
-    local trouble = require("trouble")
+    local trouble = require("trouble")                    -- Trouble plugin for diagnostics
     local trouble_telescope = require("trouble.providers.telescope")
 
-    -- or create your custom action
+    -- Custom actions using telescope's transform_mod
     local custom_actions = transform_mod({
-      open_trouble_qflist = function(prompt_bufnr)
+      open_trouble_qflist = function(prompt_bufnr)         -- Function to toggle trouble's quickfix list
         trouble.toggle("quickfix")
       end,
     })
 
+    -- Setup telescope with default settings and key mappings
     telescope.setup({
       defaults = {
-        path_display = { "smart" },
+        path_display = { "smart" },                         -- Smart path display
         mappings = {
           i = {
-            ["<C-k>"] = actions.move_selection_previous, -- move to prev result
-            ["<C-j>"] = actions.move_selection_next, -- move to next result
-            ["<C-q>"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist,
-            ["<C-t>"] = trouble_telescope.smart_open_with_trouble,
+            ["<C-k>"] = actions.move_selection_previous,    -- Map Ctrl-k to move up in the results
+            ["<C-j>"] = actions.move_selection_next,        -- Map Ctrl-j to move down in the results
+            ["<C-q>"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist, -- Map Ctrl-q to send selection to quickfix list and open trouble
+            ["<C-t>"] = trouble_telescope.smart_open_with_trouble, -- Map Ctrl-t to open with trouble using telescope
           },
         },
       },
     })
 
-    telescope.load_extension("fzf")
+    telescope.load_extension("fzf")    -- Load the FZF extension for fuzzy finding
 
-    -- set keymaps
-    local keymap = vim.keymap -- for conciseness
-
+    -- Define key mappings for various telescope functions
+    local keymap = vim.keymap
     keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Fuzzy find files in cwd" })
     keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Fuzzy find recent files" })
     keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", { desc = "Find string in cwd" })
