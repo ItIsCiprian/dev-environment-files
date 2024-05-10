@@ -1,55 +1,39 @@
+-- Configuration for the nvim-treesitter plugin
 return {
-  "nvim-treesitter/nvim-treesitter",
-  event = { "BufReadPre", "BufNewFile" },
-  build = ":TSUpdate",
-  dependencies = {
-    "windwp/nvim-ts-autotag",
+  "nvim-treesitter/nvim-treesitter",            -- Plugin identifier
+  event = { "BufReadPre", "BufNewFile" },       -- Trigger loading for these events
+  build = ":TSUpdate",                          -- Command to build or update the plugin
+  dependencies = {                              -- List of plugin dependencies
+    "windwp/nvim-ts-autotag",                   -- Autotag plugin for automatic tag management
   },
   config = function()
-    -- import nvim-treesitter plugin
+    -- Load the nvim-treesitter configuration module
     local treesitter = require("nvim-treesitter.configs")
 
-    -- configure treesitter
-    treesitter.setup({ -- enable syntax highlighting
-      highlight = {
+    -- Setup nvim-treesitter
+    treesitter.setup({
+      highlight = {                             -- Enable syntax highlighting
         enable = true,
       },
-      -- enable indentation
-      indent = { enable = true },
-      -- enable autotagging (w/ nvim-ts-autotag plugin)
-      autotag = {
+      indent = {                                -- Enable automatic indentation
         enable = true,
       },
-      -- ensure these language parsers are installed
-      ensure_installed = {
-        "json",
-        "javascript",
-        "typescript",
-        "tsx",
-        "yaml",
-        "html",
-        "css",
-        "prisma",
-        "markdown",
-        "markdown_inline",
-        "svelte",
-        "graphql",
-        "bash",
-        "lua",
-        "vim",
-        "dockerfile",
-        "gitignore",
-        "query",
-        "vimdoc",
-        "c",
-      },
-      incremental_selection = {
+      autotag = {                               -- Enable automatic tag management
         enable = true,
-        keymaps = {
-          init_selection = "<C-space>",
-          node_incremental = "<C-space>",
-          scope_incremental = false,
-          node_decremental = "<bs>",
+      },
+      ensure_installed = {                      -- List of language parsers to install
+        "json", "javascript", "typescript", "tsx", "yaml", "html", "css",
+        "prisma", "markdown", "markdown_inline", "svelte", "graphql",
+        "bash", "lua", "vim", "dockerfile", "gitignore", "query",
+        "vimdoc", "c",
+      },
+      incremental_selection = {                 -- Configure incremental selection
+        enable = true,
+        keymaps = {                             -- Key mappings for selection
+          init_selection = "<C-space>",         -- Initialize selection
+          node_incremental = "<C-space>",       -- Increment selection
+          scope_incremental = false,            -- No scope increment key
+          node_decremental = "<bs>",            -- Decrement selection
         },
       },
     })
