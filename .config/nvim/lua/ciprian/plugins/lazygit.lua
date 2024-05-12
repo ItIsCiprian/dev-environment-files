@@ -1,19 +1,18 @@
+-- Configuration for 'kdheepak/lazygit.nvim', a Neovim integration for lazygit.
 return {
-  "kdheepak/lazygit.nvim",
-  cmd = {
+  "kdheepak/lazygit.nvim",                -- Plugin identifier
+  cmd = {                                 -- Commands that trigger loading of the plugin
     "LazyGit",
     "LazyGitConfig",
     "LazyGitCurrentFile",
     "LazyGitFilter",
     "LazyGitFilterCurrentFile",
   },
-  -- optional for floating window border decoration
-  dependencies = {
+  dependencies = {                        -- Dependency required by the plugin
     "nvim-lua/plenary.nvim",
   },
-  -- setting the keybinding for LazyGit with 'keys' is recommended in
-  -- order to load the plugin when the command is run for the first time
+  -- Key bindings are set here to delay plugin loading until needed
   keys = {
-    { "<leader>lg", "<cmd>LazyGit<cr>", desc = "Open lazy git" },
+    { "<leader>lg", "<cmd>LazyGit<cr>", desc = "Open LazyGit" },  -- Map <leader>lg to open LazyGit
   },
 }
