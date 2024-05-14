@@ -32,8 +32,8 @@ return {
         },
       })
 
-      -- Apply the Catppuccin Macchiato colorscheme
-      vim.cmd("colorscheme catppuccin-macchiato")
+      -- Apply the Catppuccin Mocha colorscheme
+      vim.cmd("colorscheme catppuccin-mocha")
 
       -- Temporary fix for an LSP highlights issue with the Catppuccin theme
       -- This loop clears all semantic highlight groups as a workaround
