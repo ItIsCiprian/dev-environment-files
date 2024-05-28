@@ -1,42 +1,39 @@
 local opt = vim.opt -- for conciseness
 
--- line numbers
-opt.relativenumber = true -- show relative line numbers
-opt.number = true -- shows absolute line number on cursor line (when relative number is on)
+-- Line numbers
+opt.relativenumber = true -- Show relative line numbers
+opt.number = true -- Show absolute line number on the cursor line (when relative number is on)
 
--- tabs & indentation
-opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
-opt.shiftwidth = 2 -- 2 spaces for indent width
-opt.expandtab = true -- expand tab to spaces
-opt.autoindent = true -- copy indent from current line when starting new one
+-- Tabs and indentation
+opt.tabstop = 2 -- Use 2 spaces for tabs (prettier default)
+opt.shiftwidth = 2 -- Set the number of spaces for indentation
+opt.expandtab = true -- Convert tabs to spaces
+opt.autoindent = true -- Copy indentation from the current line when starting a new one
 
--- line wrapping
-opt.wrap = false -- disable line wrapping
+-- Line wrapping
+opt.wrap = false -- Disable line wrapping
 
--- search settings
-opt.ignorecase = true -- ignore case when searching
-opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
+-- Search settings
+opt.ignorecase = true -- Ignore case when searching
+opt.smartcase = true -- Use case-sensitive search when the search query includes mixed case
 
--- cursor line
-opt.cursorline = true -- highlight the current cursor line
+-- Cursor line
+opt.cursorline = true -- Highlight the current cursor line
 
--- appearance
+-- Appearance
+opt.termguicolors = true -- Enable 24-bit RGB colors in the TUI (for true color support)
+opt.background = "dark" -- Set background to dark for compatible colorschemes
+opt.signcolumn = "yes" -- Always show the sign column to prevent text shifting
 
--- turn on termguicolors for nightfly colorscheme to work
--- (have to use iterm2 or any other true color terminal)
-opt.termguicolors = true
-opt.background = "dark" -- colorschemes that can be light or dark will be made dark
-opt.signcolumn = "yes" -- show sign column so that text doesn't shift
+-- Backspace
+opt.backspace = "indent,eol,start" -- Allow backspace to delete indents, end-of-line, and start-of-insert
 
--- backspace
-opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
+-- Clipboard
+opt.clipboard:append("unnamedplus") -- Use the system clipboard as the default register
 
--- clipboard
-opt.clipboard:append("unnamedplus") -- use system clipboard as default register
+-- Split windows
+opt.splitright = true -- Split vertical windows to the right
+opt.splitbelow = true -- Split horizontal windows to the bottom
 
--- split windows
-opt.splitright = true -- split vertical window to the right
-opt.splitbelow = true -- split horizontal window to the bottom
-
--- turn off swapfile
-opt.swapfile = false
+-- Disable swapfile
+opt.swapfile = false -- Disable creating swapfiles
