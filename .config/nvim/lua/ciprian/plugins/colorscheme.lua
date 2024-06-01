@@ -36,6 +36,15 @@ return {
         vim.api.nvim_set_hl(0, group, {})
       end
 
+      -- Set specific highlight groups for nvim-tree and neo-tree
+      vim.api.nvim_set_hl(0, "NvimTreeNormal", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NvimTreeEndOfBuffer", { bg = "none" })
+
+      vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NeoTreeEndOfBuffer", { bg = "none" })
+
       -- Reminder: iTerm2 should be configured for transparency and blur.
       -- iTerm2 -> Preferences -> Profiles -> Window -> Adjust Transparency and enable Blur
     end,
