@@ -1,23 +1,14 @@
 # -----------------------------------------------------------------------------
-# Powerlevel10k Instant Prompt Configuration
-# -----------------------------------------------------------------------------
-# Enables faster shell startup by using the Powerlevel10k instant prompt feature.
-# Ensure initialization requiring console input is placed before this block.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-# -----------------------------------------------------------------------------
 # Oh My Zsh Configuration
 # -----------------------------------------------------------------------------
 # Sets up Oh My Zsh environment and themes.
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="powerlevel10k/powerlevel10k"  # Modern, customizable Zsh theme
+
+eval "$(starship init zsh)"
+export STARSHIP_CONFIG=~/.config/starship/starship.toml
+
 plugins=(git web-search zsh-autosuggestions zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
-
-# Loads Powerlevel10k customizations if the file exists.
-[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
 # Aliases for reloading and editing zsh configuration.
 alias reload-zsh="source ~/.zshrc"
@@ -82,7 +73,7 @@ _fzf_comprun() {
 # Bat Configuration
 # -----------------------------------------------------------------------------
 # Sets up Bat (a cat clone with syntax highlighting) theme.
-export BAT_THEME="Catppuccin Mocha"
+export BAT_THEME="Catppuccin Macchiato"
 
 # -----------------------------------------------------------------------------
 # Eza Configuration
