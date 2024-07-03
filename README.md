@@ -16,7 +16,7 @@
 
 ### Relevant Files
 
-- [.tmux.conf](.tmux.conf) - Tmux Configuration File
+- [.config/Tmux/](.tmux.conf) - Tmux Configuration File
 
 # Yabai Tiling Window Manager Setup
 
