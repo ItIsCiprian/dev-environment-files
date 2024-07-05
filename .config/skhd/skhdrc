@@ -1,60 +1,60 @@
 # -- Changing Window Focus --
 
-# Change window focus within the current space
+# change window focus within space
 alt - j : yabai -m window --focus south
 alt - k : yabai -m window --focus north
 alt - h : yabai -m window --focus west
 alt - l : yabai -m window --focus east
 
-# Change focus between external displays (left and right)
+#change focus between external displays (left and right)
 alt - s : yabai -m display --focus west
 alt - g : yabai -m display --focus east
 
 # -- Modifying the Layout --
 
-# Rotate the layout clockwise by 270 degrees
+# rotate layout clockwise
 shift + alt - r : yabai -m space --rotate 270
 
-# Flip the layout along the y-axis
+# flip along y-axis
 shift + alt - y : yabai -m space --mirror y-axis
 
-# Flip the layout along the x-axis
+# flip along x-axis
 shift + alt - x : yabai -m space --mirror x-axis
 
-# Toggle the floating state of the window and set its grid size
+# toggle window float
 shift + alt - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
 
 # -- Modifying Window Size --
 
-# Maximize the window to fullscreen
+# maximize a window
 shift + alt - m : yabai -m window --toggle zoom-fullscreen
 
-# Balance the tree of windows to occupy the same area
+# balance out tree of windows (resize to occupy same area)
 shift + alt - e : yabai -m space --balance
 
 # -- Moving Windows Around --
 
-# Swap windows with adjacent windows
+# swap windows
 shift + alt - j : yabai -m window --swap south
 shift + alt - k : yabai -m window --swap north
 shift + alt - h : yabai -m window --swap west
 shift + alt - l : yabai -m window --swap east
 
-# Move window and split
+# move window and split
 ctrl + alt - j : yabai -m window --warp south
 ctrl + alt - k : yabai -m window --warp north
 ctrl + alt - h : yabai -m window --warp west
 ctrl + alt - l : yabai -m window --warp east
 
-# Move window to the display on the left or right and focus on that display
+# move window to display left and right
 shift + alt - s : yabai -m window --display west; yabai -m display --focus west
 shift + alt - g : yabai -m window --display east; yabai -m display --focus east
 
-# Move window to the previous or next space
+# move window to prev and next space
 shift + alt - p : yabai -m window --space prev
 shift + alt - n : yabai -m window --space next
 
-# Move window to a specific space (1-7)
+# move window to space #
 shift + alt - 1 : yabai -m window --space 1
 shift + alt - 2 : yabai -m window --space 2
 shift + alt - 3 : yabai -m window --space 3
@@ -65,7 +65,24 @@ shift + alt - 7 : yabai -m window --space 7
 
 # -- Starting/Stopping/Restarting Yabai --
 
-# Stop, start, or restart yabai service
+# stop/start/restart yabai
 ctrl + alt - q : brew services stop yabai
 ctrl + alt - s : brew services start yabai
 ctrl + alt - r : brew services restart yabai
+
+# -- Raycast Window Management Hotkeys --
+
+# Bottom half
+alt - j : yabai -m window --grid 1:2:0:1:1:1
+
+# Left half
+alt - h : yabai -m window --grid 2:1:0:0:1:1
+
+# Maximize
+alt - m : yabai -m window --grid 1:1:0:0:1:1
+
+# Right half
+alt - l : yabai -m window --grid 2:1:1:0:1:1
+
+# Top half
+alt - k : yabai -m window --grid 1:2:0:0:1:1
