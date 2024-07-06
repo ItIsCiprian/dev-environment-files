@@ -18,7 +18,6 @@ default-root-container-layout = 'tiles'
 #               tall monitor (anything higher than wide) gets vertical orientation
 default-root-container-orientation = 'auto'
 
-
 # See: https://nikitabobko.github.io/AeroSpace/guide#layouts
 # The 'accordion-padding' specifies the size of accordion padding
 # You can set 0 to disable the padding feature
@@ -33,11 +32,11 @@ accordion-padding = 10
 #                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
 inner.horizontal = 10
-inner.vertical =   10
-outer.left =       10
-outer.bottom =     90
-outer.top =        10
-outer.right =      10
+inner.vertical = 10
+outer.left = 10
+outer.bottom = 10
+outer.top = 10
+outer.right = 10
 
 [mode.main.binding]
 alt-enter = 'exec-and-forget open -n /System/Applications/Ghostty.app'
@@ -168,3 +167,9 @@ cmd-shift-h = ['join-with left', 'mode main']
 cmd-shift-j = ['join-with down', 'mode main']
 cmd-shift-k = ['join-with up', 'mode main']
 cmd-shift-l = ['join-with right', 'mode main']
+
+# Custom keybindings for window management
+alt-j = 'move down'
+alt-h = 'move left'
+alt-m = 'move up'
+alt-l = 'move right'
