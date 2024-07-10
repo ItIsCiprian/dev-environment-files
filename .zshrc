@@ -7,6 +7,7 @@ export ZSH="$HOME/.oh-my-zsh"
 eval "$(starship init zsh)"
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
 
+# Zsh plugins
 plugins=(git web-search zsh-autosuggestions zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 
@@ -28,6 +29,12 @@ bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
 
 # -----------------------------------------------------------------------------
+# Homebrew Configuration
+# -----------------------------------------------------------------------------
+# Initializes Homebrew environment.
+eval "$(/usr/local/bin/brew shellenv)"
+
+# -----------------------------------------------------------------------------
 # Node Version Manager (NVM) Configuration
 # -----------------------------------------------------------------------------
 # Sets up NVM for managing different Node.js versions.
@@ -42,7 +49,10 @@ export NVM_DIR="$HOME/.nvm"
 eval "$(fzf --zsh)"
 
 # Sets up FZF theme and default options.
-export FZF_DEFAULT_OPTS="--color=fg:#CBE0F0,bg:#011628,hl:#B388FF,fg+:#CBE0F0,bg+:#143652,hl+:#B388FF,info:#06BCE4,prompt:#2CF9ED,pointer:#2CF9ED,marker:#2CF9ED,spinner:#2CF9ED,header:#2CF9ED"
+export FZF_DEFAULT_OPTS="
+  --color=fg:#CDD6F4,bg:#1E1E2E,hl:#F5C2E7,fg+:#CDD6F4,bg+:#302D41,hl+:#F5C2E7
+  --color=info:#FAB387,prompt:#F5C2E7,pointer:#F28FAD,marker:#A6E3A1,spinner:#89B4FA,header:#1E1E2E
+"
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
@@ -79,7 +89,7 @@ export BAT_THEME="Catppuccin Macchiato"
 # Eza Configuration
 # -----------------------------------------------------------------------------
 # Aliases for ls command with icons.
-alias ls="eza --icons=always"
+alias ls="eza --icons=always --color=always --long --git --no-filesize --no-time --no-user --no-permissions"
 
 # -----------------------------------------------------------------------------
 # TheFuck Configuration
@@ -98,19 +108,19 @@ alias cd="z"
 # -----------------------------------------------------------------------------
 # Custom Aliases and Functions
 # -----------------------------------------------------------------------------
-
 # Set up an alias for work sessions
-alias work="timer 60m && terminal-notifier -message 'Pomodoro'\
-        -title 'Work Timer is up! Take a Break 😊'\
-        -appIcon '~/Pictures/tomato.png'\
-        -sound Crystal"
+alias work="timer 60m && terminal-notifier -message 'Pomodoro' -title 'Work Timer is up! Take a Break 😊' -appIcon '~/Pictures/tomato.png' -sound Crystal"
+
 # Set up an alias for rest periods
-alias rest="timer 10m && terminal-notifier -message 'Pomodoro'\
-        -title 'Break is over! Get back to work 😬'\
-        -appIcon '~/Pictures/tomato.png'\
-        -sound Crystal"
+alias rest="timer 10m && terminal-notifier -message 'Pomodoro' -title 'Break is over! Get back to work 😬' -appIcon '~/Pictures/tomato.png' -sound Crystal"
+
 # Use Neovim as the default editor instead of Vim
 alias vim="nvim"
+
+# -----------------------------------------------------------------------------
+# Add Emacs to PATH
+# -----------------------------------------------------------------------------
+export PATH="$PATH:$HOME/.config/emacs/bin"
 
 # -----------------------------------------------------------------------------
 # FZF Customizations
@@ -118,24 +128,3 @@ alias vim="nvim"
 # Sets up FZF preview options for specific commands.
 export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
-
-# Advanced customization of FZF options via _fzf_comprun function.
-# The first argument to the function is the name of the command.
-# You should make sure to pass the rest of the arguments to fzf.
-_fzf_comprun() {
-  local command=$1
-  shift
-
-  case "$command" in
-    cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
-    export|unset) fzf --preview "eval 'echo \${}'" "$@" ;;
-    ssh)          fzf --preview 'dig {}' "$@" ;;
-    *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
-  esac
-}
-
-# -----------------------------------------------------------------------------
-# Eza Aliases
-# -----------------------------------------------------------------------------
-# Additional alias for 'ls' command with enhanced features.
-alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions"
