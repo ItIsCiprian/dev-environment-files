@@ -1,3 +1,16 @@
---target=~/.config
---ignore=.stowrc
---ignore=DS_Store
+# Specify the target directory for stow operations
+target=~/.config
+
+# Define files and directories to ignore during stow operations
+ignore_patterns=(
+    .stowrc
+    DS_Store
+)
+
+# Export target directory
+export STOW_TARGET=$target
+
+# Loop through ignore patterns and export them
+for pattern in "${ignore_patterns[@]}"; do
+    export STOW_IGNORE="$STOW_IGNORE --ignore=$pattern"
+done
