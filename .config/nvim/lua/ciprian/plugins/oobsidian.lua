@@ -1,22 +1,27 @@
+-- Configuration for obsidian.nvim plugin
 return {
   "epwalsh/obsidian.nvim",
-  version = "*", -- recommended, use latest release instead of latest commit
-  lazy = true,
-  ft = "markdown",
-  -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
+  version = "*", -- Recommended: Use the latest release instead of the latest commit for stability
+  lazy = true,   -- Load the plugin lazily
+  ft = "markdown", -- Load the plugin for markdown file types
+
+  -- Uncomment and replace the above 'ft' line with the below 'event' if you want to load obsidian.nvim
+  -- only for markdown files within your vault
   -- event = {
-  --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-  --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
+  --   -- Use 'vim.fn.expand' to handle the home shortcut '~'
+  --   -- E.g., "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
   --   "BufReadPre path/to/my-vault/**.md",
   --   "BufNewFile path/to/my-vault/**.md",
   -- },
-  dependencies = {
-    -- Required.
-    "nvim-lua/plenary.nvim",
 
-    -- see below for full list of optional dependencies 👇
+  dependencies = {
+    "nvim-lua/plenary.nvim", -- Required dependency
+
+    -- Add other optional dependencies below
   },
+
   opts = {
+    -- Configuration for workspaces
     workspaces = {
       {
         name = "personal",
@@ -28,6 +33,6 @@ return {
       },
     },
 
-    -- see below for full list of options 👇
+    -- Add other options below
   },
 }
