@@ -1,7 +1,12 @@
 # My Dev Environment Files for Linux using .stow 🚀
 
+# Dotfiles symlinked on my machine
 
-**IMPORTANT:** These are primarily meant for inspiration. I wouldn't just blindly use them. Proceed at your own risk!
+### Install with stow:
+```bash
+stow .
+```
+```**IMPORTANT:** These are primarily meant for inspiration. I wouldn't just blindly use them. Proceed at your own risk!
 
 # Terminal Setup
 
